@@ -5,19 +5,19 @@ import AddProduct from './AddProduct'
 
 const ProductList = () => {
 
-  const productData = useSelector(state => state.products)  
+  const productData = useSelector(state => state.products)
 
   return (
     <div className='container mx-auto flex flex-wrap justify-between'>
       {
         productData.map((p) => {
-          return(
-            <ProductCard key={p.id} productdata={p}/>
+          return (
+            <ProductCard key={p.id} data={p} mode="product" />
           )
         })
       }
       <div>
-        <AddProduct/>
+        <AddProduct />
       </div>
     </div>
   )

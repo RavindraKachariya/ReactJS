@@ -1,21 +1,20 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../redux/productSlice";
+import { addToCart, removeToCart } from "../redux/productSlice";
 
-const ProductCard = ({productdata , cartItem}) => {
+const ProductCard = ({ data, mode = "product" }) => {
 
-  console.log('cartItem' , cartItem);
-  
+
 
   const disptch = useDispatch()
-  
+
   return (
     <div className="pt-10">
       <div className="w-[300px] max-w-sm bg-neutral-primary-soft p-6 border border-default rounded-base shadow-xs">
         <a href="#">
           <img
             className="rounded-base mb-6"
-            src={productdata.image}
+            src={data.image}
             alt="product image"
           />
         </a>
@@ -81,38 +80,70 @@ const ProductCard = ({productdata , cartItem}) => {
           </div>
           <a href="#">
             <h5 className="text-xl text-heading font-semibold tracking-tight">
-             {
-              productdata.name
-             }
+              {
+                data.name
+              }
             </h5>
           </a>
-          <div className="flex items-center justify-between mt-6">
-            <span className="text-3xl font-extrabold text-heading">${productdata.price}</span>
-            <button
-              type="button"
-              className="inline-flex items-center bg-brand hover:bg-brand-strong box-border border focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-3 py-2 focus:outline-none  border-black"
-              onClick={() => disptch(addToCart(productdata))}
-            >
-              <svg
-                className="w-4 h-4 me-1.5"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width={24}
-                height={24}
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"
-                />
-              </svg>
-              Add to cart
-            </button>
-          </div>
+          {
+            mode === "product" ? (
+              <div className="flex items-center justify-between mt-6">
+                <span className="text-3xl font-extrabold text-heading">${data.price}</span>
+                <button
+                  type="button"
+                  className="inline-flex items-center bg-brand hover:bg-brand-strong box-border border focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-3 py-2 focus:outline-none  border-black"
+                  onClick={() => disptch(addToCart(data))}
+                >
+                  <svg
+                    className="w-4 h-4 me-1.5"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={24}
+                    height={24}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"
+                    />
+                  </svg>
+                  AddToCart
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center justify-between mt-6">
+                <span className="text-3xl font-extrabold text-heading">${data.price}</span>
+                <button
+                  type="button"
+                  className="inline-flex items-center bg-brand hover:bg-brand-strong box-border border focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-3 py-2 focus:outline-none  border-black"
+                  onClick={() => disptch(removeToCart(data.id))}
+                >
+                  <svg
+                    className="w-4 h-4 me-1.5"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={24}
+                    height={24}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"
+                    />
+                  </svg>
+                  RemoveToCart
+                </button>
+              </div>
+            )
+          }
         </div>
       </div>
     </div>

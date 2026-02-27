@@ -5,7 +5,7 @@ import { addProduct } from "../redux/productSlice";
 const AddProduct = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("Select category");
   const [stock, setStock] = useState("");
   const [image, setImage] = useState("");
 
@@ -16,17 +16,17 @@ const AddProduct = () => {
 
     // validation
 
-    if(!name || !price || !stock || !image || !category){
+    if (!name || !price || !stock || !image || !category) {
       alert('Please fill all field!!')
     }
 
     const newProduct = {
-      id:Date.now(),
-      name:name.trim(),
-      price:parseFloat(price),
-      category:category,
-      stock:parseInt(stock),
-      image:image.trim()
+      id: Date.now(),
+      name: name.trim(),
+      price: parseFloat(price),
+      category: category,
+      stock: parseInt(stock),
+      image: image.trim()
     }
 
     dispatch(addProduct(newProduct))
@@ -157,7 +157,7 @@ const AddProduct = () => {
                     className="block w-full px-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs placeholder:text-body"
                     onChange={(e) => setCategory(e.target.value)}
                   >
-                    <option selected="">Select category</option>
+                    <option >Select category</option>
                     <option value="TV">TV/Monitors</option>
                     <option value="PC">PC</option>
                     <option value="GA">Gaming/Console</option>
@@ -171,8 +171,8 @@ const AddProduct = () => {
                   >
                     Product Stock
                   </label>
-                  <input type="number" name="" id=""  className="block bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand  w-full p-3.5 shadow-xs placeholder:text-body"
-                  onChange={(e) => setStock(e.target.value)} />
+                  <input type="number" name="" id="" className="block bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand  w-full p-3.5 shadow-xs placeholder:text-body"
+                    onChange={(e) => setStock(e.target.value)} />
                 </div>
               </div>
               <div className="flex items-center space-x-4  pt-4 md:pt-6">
