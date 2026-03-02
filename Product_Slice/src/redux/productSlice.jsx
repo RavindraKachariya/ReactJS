@@ -110,17 +110,25 @@ const productSlice = createSlice({
       state.cart = [];
     },
 
-    increseQuentity: () => {
-
+    increseQuentity: (state, action) => {
+      const item = state.cart.find((p) => p.id === action.payload)
+      if (item) {
+        item.quentity += 1;
+        state.totalAmount += item.price
+      }
     },
 
-    decreseQuentity: () => {
-
+    decreseQuentity: (state, action) => {
+      const item = state.cart.find((p) => p.id === action.payload)
+      if (item && item.quentity > 1) {
+        item.quentity -= 1;
+        state.totalAmount -= item.price
+      }
     },
   },
 });
 
-export const { addProduct, updateProduct, deleteProduct, addToCart, removeToCart, clearCart } =
+export const { addProduct, updateProduct, deleteProduct, addToCart, removeToCart, clearCart, increseQuentity, decreseQuentity } =
   productSlice.actions;
 
 export default productSlice.reducer;

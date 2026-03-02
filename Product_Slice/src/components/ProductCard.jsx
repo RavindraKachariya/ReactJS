@@ -4,8 +4,6 @@ import { addToCart, removeToCart } from "../redux/productSlice";
 
 const ProductCard = ({ data, mode = "product" }) => {
 
-
-
   const disptch = useDispatch()
 
   return (
