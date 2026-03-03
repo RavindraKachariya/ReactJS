@@ -1,6 +1,7 @@
 import React from "react";
 import ProductList from "./ProductList";
 import Cart from "./Cart";
+import Wishlist from "./Wishlist";
 import Navbar from "./Navbar";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -18,10 +19,14 @@ const router = createBrowserRouter([
         element: <Cart />,
       },
       {
+        path: "/wishlist",
+        element: <Wishlist />,
+      },
+      {
         path: "/login",
         element: <Cart />,
       },
-       {
+      {
         path: "/register",
         element: <Cart />,
       },

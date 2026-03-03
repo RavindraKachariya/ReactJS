@@ -1,179 +1,152 @@
 import { useSelector, useDispatch } from "react-redux";
-import { clearCart, removeToCart, increseQuentity, decreseQuentity } from "../redux/productSlice";
+import {
+  clearCart,
+  increseQuentity,
+  decreseQuentity,
+  removeToCart,
+} from "../redux/cartSlice";
+import { addToWishlist } from "../redux/wishlistSlice";
 
 const Cart = () => {
-  const cartData = useSelector((state) => state.products.cart);
+  const cartData = useSelector((state) => state.cart.cart);
+  const totalAmount = useSelector((state) => state.cart.totalAmount);
   const dispatch = useDispatch();
 
-  const totalAmount = useSelector(state => state.totalAmount)
-
-  console.log("cartData", cartData);
-  console.log("cartData", totalAmount);
-
-  // const handleIncrement = (id) => {
-  //   let amount = cartData.find((p) => p.id === id)
-  //   let quntity = amount.quentity += 1
-  //   console.log(amount.price  * quntity);
-  // }
-
   return (
-    <>
-      <div className="container mx-auto">
-        <div className="flex justify-end my-4">
+    <div className="container mx-auto px-4 py-10">
+
+      {/* Header */}
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold text-gray-800">
+          Shopping Cart ({cartData.length})
+        </h1>
+
+        {cartData.length > 0 && (
           <button
-            type="button"
-            className="inline-flex items-center bg-brand hover:bg-brand-strong box-border border focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-3 py-2 focus:outline-none  border-black"
             onClick={() => dispatch(clearCart())}
+            className="bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600 transition shadow"
           >
-            <svg
-              className="w-4 h-4 me-1.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              width={24}
-              height={24}
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"
-              />
-            </svg>
-            ClearCart
+            Clear Cart
           </button>
+        )}
+      </div>
+
+      {cartData.length === 0 ? (
+        <div className="text-center py-24">
+          <h2 className="text-2xl font-semibold text-gray-600">
+            Your cart is empty
+          </h2>
+          <p className="text-gray-400 mt-2">
+            Add products to your cart to see them here.
+          </p>
         </div>
-        <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
-          <table className="w-full text-sm text-left rtl:text-right text-body">
-            <thead className="text-sm text-body bg-neutral-secondary-medium border-b border-default-medium">
-              <tr>
-                <th scope="col" className="px-16 py-3">
-                  <span className="">Image</span>
-                </th>
-                <th scope="col" className="px-6 py-3 font-medium">
-                  Product
-                </th>
-                <th scope="col" className="px-6 py-3 font-medium">
-                  Qty
-                </th>
-                <th scope="col" className="px-6 py-3 font-medium">
-                  Price
-                </th>
-                <th scope="col" className="px-6 py-3 font-medium">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {cartData.map((p) => {
-                return (
-                  <tr className="bg-neutral-primary-soft border-b border-default hover:bg-neutral-secondary-medium">
-                    <td className="p-4">
-                      <img
-                        src={p.image}
-                        className="w-16 md:w-24 max-w-full max-h-full"
-                        alt="Apple Watch"
-                      />
-                    </td>
-                    <td className="px-6 py-4 font-semibold text-heading">
-                      {p.name}
-                    </td>
-                    <td className="px-6 py-4">
-                      <form className="max-w-xs mx-auto">
-                        <label htmlFor="counter-input-1" className="sr-only">
-                          Choose quantity:
-                        </label>
-                        <div className="relative flex items-center">
-                          <button
-                            type="button"
-                            id="decrement-button-1"
-                            data-input-counter-decrement="counter-input-1"
-                            className="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary rounded-full text-sm focus:outline-none h-6 w-6"
-                            onClick={() => dispatch(decreseQuentity(p.id))}
-                          >
-                            <svg
-                              className="w-3 h-3 text-heading"
-                              aria-hidden="true"
-                              xmlns="http://www.w3.org/2000/svg"
-                              width={24}
-                              height={24}
-                              fill="none"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M5 12h14"
-                              />
-                            </svg>
-                          </button>
-                          {
-                            p.quentity
-                          }
-                          {/* <input
-                            type="text"
-                            id="counter-input-1"
-                            data-input-counter=""
-                            className="shrink-0 text-heading border-0 bg-transparent text-sm font-normal focus:outline-none focus:ring-0 max-w-[2.5rem] text-center"
-                            placeholder=""
-                            defaultValue={1}
-                            required=""
-                          /> */}
-                          <button
-                            type="button"
-                            id="increment-button-1"
-                            data-input-counter-increment="counter-input-1"
-                            className="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary rounded-full text-sm focus:outline-none h-6 w-6"
-                            onClick={() => dispatch(increseQuentity(p.id))}
-                          >
-                            <svg
-                              className="w-3 h-3 text-heading"
-                              aria-hidden="true"
-                              xmlns="http://www.w3.org/2000/svg"
-                              width={24}
-                              height={24}
-                              fill="none"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M5 12h14m-7 7V5"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      </form>
-                    </td>
-                    <td className="px-6 py-4 font-semibold text-heading">
-                      ${p.price * p.quentity}
-                    </td>
-                    <td className="px-6 py-4">
-                      <a
-                        href="#"
-                        className="font-medium text-fg-danger hover:underline"
-                        onClick={() => dispatch(removeToCart(p.id))}
-                      >
-                        Remove
-                      </a>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <div>
-            TotalAmount : {totalAmount}
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+          {/* Cart Items */}
+          <div className="lg:col-span-2 space-y-6">
+            {cartData.map((p) => (
+              <div
+                key={p.id}
+                className="bg-white shadow-md rounded-xl p-6 flex flex-col sm:flex-row gap-6 items-center"
+              >
+                {/* Image */}
+                <div className="w-32 h-32 flex items-center justify-center bg-gray-50 rounded-lg">
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    className="h-24 object-contain"
+                  />
+                </div>
+
+                {/* Details */}
+                <div className="flex-1 w-full">
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    {p.name}
+                  </h3>
+
+                  <p className="text-indigo-600 font-bold mt-2">
+                    ${p.price}
+                  </p>
+
+                  {/* Quantity Controls */}
+                  <div className="flex items-center gap-4 mt-4">
+                    <button
+                      onClick={() => dispatch(decreseQuentity(p.id))}
+                      className="w-8 h-8 flex items-center justify-center border rounded-full hover:bg-gray-100"
+                    >
+                      -
+                    </button>
+
+                    <span className="font-medium text-lg">
+                      {p.quentity}
+                    </span>
+
+                    <button
+                      onClick={() => dispatch(increseQuentity(p.id))}
+                      className="w-8 h-8 flex items-center justify-center border rounded-full hover:bg-gray-100"
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex gap-6 mt-4 text-sm">
+                    <button
+                      onClick={() => dispatch(removeToCart(p.id))}
+                      className="text-red-500 hover:underline"
+                    >
+                      Remove
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        dispatch(addToWishlist(p));
+                        dispatch(removeToCart(p.id));
+                      }}
+                      className="text-indigo-600 hover:underline"
+                    >
+                      Move to Wishlist
+                    </button>
+                  </div>
+                </div>
+
+                {/* Subtotal */}
+                <div className="text-lg font-bold text-gray-800">
+                  ${p.price * p.quentity}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Order Summary */}
+          <div className="bg-white shadow-md rounded-xl p-6 h-fit sticky top-10">
+            <h2 className="text-xl font-semibold mb-6">Order Summary</h2>
+
+            <div className="flex justify-between mb-4">
+              <span>Subtotal</span>
+              <span>${totalAmount}</span>
+            </div>
+
+            <div className="flex justify-between mb-4">
+              <span>Shipping</span>
+              <span className="text-green-600">Free</span>
+            </div>
+
+            <hr className="my-4" />
+
+            <div className="flex justify-between text-lg font-bold">
+              <span>Total</span>
+              <span>${totalAmount}</span>
+            </div>
+
+            <button className="w-full bg-indigo-600 text-white py-3 rounded-lg mt-6 hover:bg-indigo-700 transition">
+              Proceed to Checkout
+            </button>
           </div>
         </div>
-      </div>
-    </>
+      )}
+    </div>
   );
 };
 

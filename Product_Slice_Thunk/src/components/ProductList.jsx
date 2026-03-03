@@ -5,6 +5,7 @@ import AddProduct from "./AddProduct";
 import { fetchProducts } from "../redux/productSlice";
 
 const ProductList = () => {
+
   const dispatch = useDispatch();
 
   const { products, loading, error } = useSelector(
@@ -21,36 +22,34 @@ const ProductList = () => {
         <AddProduct />
       </div>
 
-      <div className="container mx-auto mt-6 flex flex-wrap gap-6 justify-start">
+      <div className="container mx-auto mt-6">
 
         {loading && (
-          <h2 className="text-xl font-semibold text-gray-600">
+          <div className="text-center text-lg font-semibold text-blue-500">
             Loading products...
-          </h2>
+          </div>
         )}
 
         {error && (
-          <h2 className="text-xl font-semibold text-red-500">
+          <div className="text-center text-lg font-semibold text-red-500">
             Error: {error}
-          </h2>
+          </div>
         )}
 
-        {!loading && !error && products.length === 0 && (
-          <h2 className="text-xl font-semibold text-gray-500">
-            No Products Available
-          </h2>
+        {!loading && !error && (
+          <div className="flex flex-wrap justify-between">
+            {products?.length > 0 ? (
+              products.map((p) => (
+                <ProductCard key={p.id} data={p} mode="product" />
+              ))
+            ) : (
+              <div className="text-center w-full text-gray-500">
+                No products available.
+              </div>
+            )}
+          </div>
         )}
 
-        {!loading &&
-          !error &&
-          products.length > 0 &&
-          products.map((product) => (
-            <ProductCard
-              key={product.id}
-              data={product}
-              mode="product"
-            />
-          ))}
       </div>
     </>
   );

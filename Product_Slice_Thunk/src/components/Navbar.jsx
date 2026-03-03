@@ -1,32 +1,93 @@
 import React from "react";
-import { NavLink, Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const cartItem = useSelector((state) => state.products.cart);
-  console.log("cartItem", cartItem.length);
+  const cartItem = useSelector((state) => state.cart.cart);
+  const wishlistItem = useSelector((state) => state.wishlist.wishlist);
+
+  const linkClass =
+    "px-3 py-2 rounded-md text-sm font-medium transition duration-200";
+
+  const activeClass = "bg-white text-indigo-600";
+  const defaultClass = "text-white hover:bg-indigo-500";
 
   return (
     <>
-      <div className="flex justify-around bg-blue-500 p-4 items-center">
-        <div className="text-4xl font-black">Navbar</div>
-        <ul className="">
-          <li className="space-x-4 flex">
-            <NavLink to="/">Product</NavLink>
-            <NavLink to="/cart">
-              <div className="flex">
-                <span>Cart</span>
-                <span className="flex items-center justify-center bg-brand-softer border border-brand-subtle text-fg-brand-strong text-xs font-medium h-4 w-4 rounded-full bg-gray-900 text-white">
+      {/* Navbar */}
+      <nav className="bg-indigo-600 shadow-md sticky top-0 z-50">
+        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+
+          {/* Logo */}
+          <div className="text-2xl font-bold text-white tracking-wide">
+            MyStore
+          </div>
+
+          {/* Links */}
+          <div className="flex items-center space-x-4">
+
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `${linkClass} ${isActive ? activeClass : defaultClass}`
+              }
+            >
+              Products
+            </NavLink>
+
+            <NavLink
+              to="/wishlist"
+              className={({ isActive }) =>
+                `${linkClass} flex items-center gap-1 ${isActive ? activeClass : defaultClass
+                }`
+              }
+            >
+              Wishlist
+              {wishlistItem.length > 0 && (
+                <span className="ml-1 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                  {wishlistItem.length}
+                </span>
+              )}
+            </NavLink>
+
+            <NavLink
+              to="/cart"
+              className={({ isActive }) =>
+                `${linkClass} flex items-center gap-1 ${isActive ? activeClass : defaultClass
+                }`
+              }
+            >
+              Cart
+              {cartItem.length > 0 && (
+                <span className="ml-1 bg-yellow-400 text-black text-xs px-2 py-0.5 rounded-full">
                   {cartItem.length}
                 </span>
-              </div>
+              )}
             </NavLink>
-            <NavLink to="/login">Login</NavLink>
-            <NavLink to="/register">Register</NavLink>
-          </li>
-        </ul>
-      </div>
-      <main>
+
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                `${linkClass} ${isActive ? activeClass : defaultClass}`
+              }
+            >
+              Login
+            </NavLink>
+
+            <NavLink
+              to="/register"
+              className={({ isActive }) =>
+                `${linkClass} ${isActive ? activeClass : defaultClass}`
+              }
+            >
+              Register
+            </NavLink>
+          </div>
+        </div>
+      </nav>
+
+      {/* Page Content */}
+      <main className="bg-gray-50 min-h-screen">
         <Outlet />
       </main>
     </>

@@ -15,10 +15,9 @@ const AddProduct = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // validation
-
-    if (!name || !price || !stock || !image || !category) {
-      alert("Please fill all field!!");
+    if (!name || !price || !stock || !image || category === "Select category") {
+      alert("Please fill all fields!!");
+      return;
     }
 
     const newProduct = {
@@ -33,194 +32,283 @@ const AddProduct = () => {
     dispatch(addProduct(newProduct));
 
     setName("");
-    setCategory("");
+    setCategory("Select category");
     setImage("");
     setPrice("");
     setStock("");
-    setShowForm(false)
+    setShowForm(false);
 
-    alert("Product Add Successfully!!");
+    alert("Product Added Successfully!!");
   };
 
   return (
     <>
-      <div className="flex justify-end">
+      <div className="flex justify-end mb-6">
         <button
-          data-modal-target="crud-modal"
-          data-modal-toggle="crud-modal"
-          className="inline-flex items-center bg-brand hover:bg-brand-strong box-border border focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-3 py-2 focus:outline-none  border-black"
+          className="inline-flex items-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg"
           type="button"
           onClick={() => setShowForm(true)}
         >
+          <svg
+            className="w-5 h-5 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+            />
+          </svg>
           Add New Product
         </button>
       </div>
 
       {showForm && (
-        <div
-          id="crud-modal"
-          tabIndex={-1}
-          aria-hidden="true"
-          className="overflow-y-auto overflow-x-hidden absolute right-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full "
-        >
-          <div className="relative p-4 w-full max-w-md max-h-full mx-auto flex items-center h-screen">
-            {/* Modal content */}
-            <div className="relative bg-white border border-default rounded-base shadow-sm p-4 md:p-6">
-              {/* Modal header */}
-              <div className="flex items-center justify-between border-b border-default pb-4 md:pb-5">
-                <h3 className="text-lg font-medium text-heading">
-                  Create new product
-                </h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm">
+          <div className="relative w-full max-w-2xl mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all">
+            {/* Modal Header */}
+            <div className="bg-indigo-600 px-8 py-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-white">
+                    Create New Product
+                  </h2>
+                  <p className="text-blue-100 text-sm mt-1">
+                    Fill in the product details below
+                  </p>
+                </div>
                 <button
-                  type="button"
-                  className="text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
-                  data-modal-hide="crud-modal"
+                  className="text-white hover:bg-white/20 rounded-full p-2 transition-colors"
                   onClick={() => setShowForm(false)}
                 >
                   <svg
-                    className="w-5 h-5"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={24}
-                    height={24}
+                    className="w-6 h-6"
                     fill="none"
+                    stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
                     <path
-                      stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M6 18 17.94 6M18 18 6.06 6"
+                      d="M6 18L18 6M6 6l12 12"
                     />
                   </svg>
-                  <span className="sr-only">Close modal</span>
                 </button>
               </div>
-              {/* Modal body */}
-              <form action="#" onSubmit={handleSubmit}>
-                <div className="grid gap-4 grid-cols-2 py-4 md:py-6">
-                  <div className="col-span-2">
-                    <label
-                      htmlFor="name"
-                      className="block mb-2.5 text-sm font-medium text-heading"
-                    >
-                      Name
-                    </label>
+            </div>
+
+            {/* Modal Body */}
+            <form action="#" onSubmit={handleSubmit} className="p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Product Name */}
+                <div className="col-span-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Product Name
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <svg
+                        className="w-5 h-5 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                        />
+                      </svg>
+                    </div>
                     <input
                       type="text"
                       name="name"
-                      id="name"
-                      className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
-                      placeholder="Type product name"
-                      required=""
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      placeholder="Enter product name"
+                      value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
                   </div>
-                  <div className="col-span-2">
-                    <label
-                      htmlFor="name"
-                      className="block mb-2.5 text-sm font-medium text-heading"
-                    >
-                      Name
-                    </label>
+                </div>
+
+                {/* Image URL */}
+                <div className="col-span-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Image URL
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <svg
+                        className="w-5 h-5 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
+                      </svg>
+                    </div>
                     <input
-                      type="text"
-                      name="name"
-                      id="name"
-                      className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
-                      placeholder="Add Image URL"
-                      required=""
+                      type="url"
+                      name="image"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      placeholder="https://example.com/image.jpg"
+                      value={image}
                       onChange={(e) => setImage(e.target.value)}
                     />
                   </div>
-                  <div className="col-span-2 sm:col-span-1">
-                    <label
-                      htmlFor="price"
-                      className="block mb-2.5 text-sm font-medium text-heading"
-                    >
-                      Price
-                    </label>
+                </div>
+
+                {/* Price */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Price ($)
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <span className="text-gray-400 font-medium">$</span>
+                    </div>
                     <input
                       type="number"
                       name="price"
-                      id="price"
-                      className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
-                      placeholder="$2999"
-                      required=""
+                      className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      placeholder="0.00"
+                      min="0"
+                      step="0.01"
+                      value={price}
                       onChange={(e) => setPrice(e.target.value)}
                     />
                   </div>
-                  <div className="col-span-2 sm:col-span-1">
-                    <label
-                      htmlFor="category"
-                      className="block mb-2.5 text-sm font-medium text-heading"
-                    >
-                      Category
-                    </label>
+                </div>
+
+                {/* Category */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Category
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <svg
+                        className="w-5 h-5 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                        />
+                      </svg>
+                    </div>
                     <select
                       id="category"
-                      className="block w-full px-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs placeholder:text-body"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors appearance-none bg-white"
+                      value={category}
                       onChange={(e) => setCategory(e.target.value)}
                     >
-                      <option>Select category</option>
+                      <option value="Select category" disabled>
+                        Select category
+                      </option>
                       <option value="TV">TV/Monitors</option>
                       <option value="PC">PC</option>
                       <option value="GA">Gaming/Console</option>
                       <option value="PH">Phones</option>
                     </select>
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                      <svg
+                        className="w-4 h-4 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </div>
                   </div>
-                  <div className="col-span-2">
-                    <label
-                      htmlFor="description"
-                      className="block mb-2.5 text-sm font-medium text-heading"
-                    >
-                      Product Stock
-                    </label>
+                </div>
+
+                {/* Stock */}
+                <div className="col-span-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Stock Quantity
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <svg
+                        className="w-5 h-5 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                        />
+                      </svg>
+                    </div>
                     <input
                       type="number"
-                      name=""
-                      id=""
-                      className="block bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand  w-full p-3.5 shadow-xs placeholder:text-body"
+                      name="stock"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      placeholder="Enter stock quantity"
+                      min="0"
+                      value={stock}
                       onChange={(e) => setStock(e.target.value)}
                     />
                   </div>
                 </div>
-                <div className="flex items-center space-x-4  pt-4 md:pt-6">
-                  <button
-                    type="submit"
-                    className="inline-flex items-center bg-brand hover:bg-brand-strong box-border focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none border border-default-medium"
-                  >
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex items-center justify-end space-x-4 mt-8 pt-6 border-t border-gray-200">
+                <button
+                  type="button"
+                  className="px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-gray-300 transition-colors"
+                  onClick={() => setShowForm(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-300 shadow-lg transform hover:scale-105 transition-all duration-200"
+                >
+                  <span className="flex items-center">
                     <svg
-                      className="w-4 h-4 me-1.5 -ms-0.5"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width={24}
-                      height={24}
+                      className="w-5 h-5 mr-2"
                       fill="none"
+                      stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
                       <path
-                        stroke="currentColor"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M5 12h14m-7 7V5"
+                        d="M5 13l4 4L19 7"
                       />
                     </svg>
-                    Add new product
-                  </button>
-                  <button
-                    data-modal-hide="crud-modal"
-                    type="button"
-                    className="text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none"
-                    onClick={() => setShowForm(false)}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            </div>
+                    Add Product
+                  </span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
