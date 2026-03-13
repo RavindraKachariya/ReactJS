@@ -1,5 +1,5 @@
 import { db } from "../../firebase/firebaseConfig";
-import { collection, getDoc, addDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
+import { collection, getDocs, addDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
 
 const productCollection = collection(db, "product")
 
@@ -9,9 +9,9 @@ console.log('productCollection', productCollection);
 // fetch data
 
 export const fetchProductAPI = async () => {
-    const ProductData = await getDoc(productCollection)
+    const ProductData = await getDocs(productCollection)
 
-    const product = ProductData.doc.map((doc) => ({
+    const product = ProductData.docs.map((doc) => ({
         id: doc.id,
         ...doc.data()
     }))

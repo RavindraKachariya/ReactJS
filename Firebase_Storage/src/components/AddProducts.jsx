@@ -10,7 +10,7 @@ const AddProduct = () => {
     const [image, setImage] = useState("")
     const [price, setPrice] = useState("")
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         console.log("HandleSubmit Called.......");
 
         e.preventDefault()
@@ -21,11 +21,22 @@ const AddProduct = () => {
             price: price
         }
 
-        dispatch(addProduct(newProduct))
+        // Using Promise.all to properly handle async dispatch
+        const result = await Promise.all([
+            dispatch(addProduct(newProduct))
+        ])
 
-        setName(" ");
-        setImage(" ");
-        setPrice(" ");
+        // Unwrap promise to check for errors
+        try {
+            await Promise.all(result.map(r => r.unwrap()));
+            console.log("Product added successfully!");
+        } catch (error) {
+            console.error("Failed to add product:", error);
+        }
+
+        setName("");
+        setImage("");
+        setPrice("");
     }
 
     return (
