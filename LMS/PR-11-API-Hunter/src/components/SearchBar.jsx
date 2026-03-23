@@ -1,15 +1,39 @@
-const SearchBar = ({ search, setSearch }) => {
-    return (
-        <div className="p-4 flex justify-center">
-            <input
-                type="text"
-                placeholder="Search API..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full max-w-md p-2 border rounded-lg"
-            />
-        </div>
-    );
-};
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { setQuery } from '../redux/features/searchSlice'
 
-export default SearchBar;
+const SearchBar = () => {
+
+    const [text, setText] = useState('')
+
+    const dispatch = useDispatch()
+
+    const submitHandler = (e) => {
+        e.preventDefault()
+        dispatch(setQuery(text))
+        setText('')
+    }
+
+    return (
+        <div>
+            <form onSubmit={(e) => {
+                submitHandler(e)
+            }} className='flex  bg-(--c1) gap-5 py-10 px-10'>
+
+                <input
+                    value={text}
+                    onChange={(e) => {
+                        setText(e.target.value)
+                    }}
+                    required
+                    className='w-full border-2 px-6 py-3 text-xl rounded outline-none'
+                    type="text"
+                    placeholder='Search anything...' />
+
+                <button className='active:scale-95 cursor-pointer border-2 px-6 py-3 text-xl rounded outline-none'>Search</button>
+            </form>
+        </div>
+    )
+}
+
+export default SearchBar
